@@ -3,35 +3,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class BJ1463 {
-    static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
 
-        result = 0;
-        makeOne(n);
-        System.out.println(result);
-    }
-    static int makeOne(int n){
-        if(n == 1) return 1;
-        else {
-            if (n % 3 == 0) {
-                result++;
-                return makeOne(n / 3);
+        int[] result = new int[n+1];
+        result[1] = 0;
+
+        for (int i = 2; i <= n; i++) {
+            result[i] = result[i-1]+1;
+            if (i%2==0){
+                result[i] = Math.min(result[i], result[i/2]+1);
             }
-            else if(n % 3 == 1) {
-                result++;
-                return makeOne(n - 1);
-            }
-            else if (n % 2 == 0) {
-                result++;
-                return makeOne(n / 2);
-            }
-            else {
-                result++;
-                return makeOne(n - 1);
+            if (i%3==0){
+                result[i] = Math.min(result[i], result[i/3]+1);
             }
         }
+        System.out.println(result[n]);
     }
 }
